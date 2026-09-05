@@ -28,6 +28,8 @@ public:
 protected:
     QFutureWatcher<WorkRet>* watcher;
 
+    // Use lambda for worker and ret.
+    // Possible to use reference in ret.
     template<
         typename Reciever,
         typename Work,

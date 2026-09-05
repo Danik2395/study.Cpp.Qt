@@ -1,6 +1,16 @@
 cmake_minimum_required(VERSION 3.16)
 project(QtLabs VERSION 1.0 LANGUAGES CXX)
 
+include(FetchContent)
+
+FetchContent_Declare(
+    ssstl
+    GIT_REPOSITORY https://github.com/Danik2395/ssstl.git
+    GIT_TAG        main
+)
+
+FetchContent_MakeAvailable(ssstl)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -24,4 +34,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Gui
     Qt6::Widgets
     Qt6::Concurrent
+    ssstl
 )

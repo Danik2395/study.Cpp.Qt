@@ -8,6 +8,7 @@
 #include "labs/LabTestWidget.h"
 
 #define PINNED_TAB_INDEX 0
+#define MAX_BUTTON_SIZE 100, 100
 
 class MainWindow : public QMainWindow
 {
@@ -33,7 +34,7 @@ public:
 
         auto* btn_test_lab = new QPushButton("Test", hub_widget);
         hub_layout->addWidget(btn_test_lab);
-        btn_test_lab->setMaximumSize(100, 100);
+        btn_test_lab->setMaximumSize(MAX_BUTTON_SIZE);
 
         auto* btn_dummy = new QPushButton("dummy", hub_widget);
         hub_layout->addWidget(btn_dummy);

@@ -7,6 +7,7 @@
 #include <QFutureWatcher>
 #include <QVBoxLayout>
 #include "../Interfaces.h"
+#include "ssstl/random.h"
 
 class LabTestWidget : public QWidget, public ILabWindow, public Threaded<int>
 {
@@ -41,7 +42,7 @@ private:
     int work_test()
     {
         QThread::sleep(3);
-        return 555;
+        return ssstl::random<int>(0, 5);
     }
 
     void ret_test()
