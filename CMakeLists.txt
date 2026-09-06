@@ -25,6 +25,8 @@ set(SOURCES
     main.cpp
     MainWindow.h
     labs/LabTestWidget.h
+    labs/Lab1Widget.h
+    labs/Lab1Widget.cpp
 )
 
 add_executable(${PROJECT_NAME} WIN32 ${SOURCES})

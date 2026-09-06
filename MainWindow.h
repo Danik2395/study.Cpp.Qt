@@ -13,6 +13,7 @@
 #include <functional>
 #include <new>
 #include "labs/LabTestWidget.h"
+#include "labs/Lab1Widget.h"
 
 #define PINNED_TAB_INDEX 0
 #define MAX_BUTTON_SIZE 100, 100
@@ -50,7 +51,7 @@ public:
 
         buttons_conf = {
             make_button_conf<LabTestWidget>("Test", parent),
-            make_button_conf<LabTestWidget>("Test2", parent),
+            make_button_conf<Lab1Widget>   ("Lab 1", parent),
         };
 
         for (const auto& btn_conf : buttons_conf)
@@ -64,11 +65,25 @@ public:
             // In labmda call the factory to create instance of LabNWidget
             connect(btn,
                     &QPushButton::clicked,
-                    this,
+                    this, // Need `this` to Qt to know on what object lifetime to look (with slots not necessary)
                     [this, btn_conf, parent]() {
                     auto* new_lab = btn_conf.factory(btn_conf.name, parent);
                     int index = tab_widget->addTab(new_lab, btn_conf.name);
                     tab_widget->setCurrentIndex(index);
+
+                    // If new_lab is castable to Lab1Widget
+                    // connect tap on it btn_exit to lambda with closing this tab
+                    if (auto* lab1 = dynamic_cast<Lab1Widget*>(new_lab))
+                    {
+                        connect(lab1, &Lab1Widget::close_requested, this, [this, lab1](){
+                                int lab1_tab_idx = tab_widget->indexOf(lab1);
+                                if (lab1_tab_idx != -1)
+                                {
+                                    tab_widget->removeTab(lab1_tab_idx);
+                                    lab1->deleteLater();
+                                }
+                                });
+                    }
                     });
         }
 
