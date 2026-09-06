@@ -5,6 +5,13 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <qboxlayout.h>
+#include <qobject.h>
+#include <qpushbutton.h>
+#include <qwidget.h>
+#include <QString>
+#include <vector>
+#include <functional>
+#include <new>
 #include "labs/LabTestWidget.h"
 
 #define PINNED_TAB_INDEX 0
@@ -21,38 +28,67 @@ public:
         tab_widget->setTabsClosable(true);
         auto* tab_bar = tab_widget->tabBar();
 
+        // Set tab widget as central (no side widgets yet)
         setCentralWidget(tab_widget);
 
+        // If closed remove tab and send it to safe delete qeueu
         connect(tab_widget, &QTabWidget::tabCloseRequested, this, [this](int index) {
             QWidget* widget = tab_widget->widget(index);
             tab_widget->removeTab(index);
             widget->deleteLater();
         });
 
+        // Create hub and assign layout to it
         auto* hub_widget = new QWidget();
         auto* hub_layout = new QVBoxLayout(hub_widget);
 
-        auto* btn_test_lab = new QPushButton("Test", hub_widget);
-        hub_layout->addWidget(btn_test_lab);
-        btn_test_lab->setMaximumSize(MAX_BUTTON_SIZE);
-
-        auto* btn_dummy = new QPushButton("dummy", hub_widget);
-        hub_layout->addWidget(btn_dummy);
-
-        hub_layout->addStretch(1);
-
         tab_widget->addTab(hub_widget, "Hub");
 
+        // Remove cross from hub (the thing done if setTabsClosable isn't set)
         tab_bar->tabButton(PINNED_TAB_INDEX, QTabBar::RightSide)->deleteLater();
         tab_bar->setTabButton(PINNED_TAB_INDEX, QTabBar::RightSide, nullptr);
 
-        connect(btn_test_lab, &QPushButton::clicked, this, [this]() {
-            auto* new_lab = new LabTestWidget("test_lab");
-            int index = tab_widget->addTab(new_lab, new_lab->get_name());
-            tab_widget->setCurrentIndex(index);
-        });
+        buttons_conf = {
+            make_button_conf<LabTestWidget>("Test", parent),
+            make_button_conf<LabTestWidget>("Test2", parent),
+        };
+
+        for (const auto& btn_conf : buttons_conf)
+        {
+            // Create instance of the button, assing it to layout (hub_widged), set size
+            auto* btn = new QPushButton(btn_conf.name, hub_widget);
+            hub_layout->addWidget(btn);
+            btn->setMaximumSize(MAX_BUTTON_SIZE);
+
+            // Connect click on this button to lambda.
+            // In labmda call the factory to create instance of LabNWidget
+            connect(btn,
+                    &QPushButton::clicked,
+                    this,
+                    [this, btn_conf, parent]() {
+                    auto* new_lab = btn_conf.factory(btn_conf.name, parent);
+                    int index = tab_widget->addTab(new_lab, btn_conf.name);
+                    tab_widget->setCurrentIndex(index);
+                    });
+        }
+
+        // Add invisible QSpacer item (min size 0, stretch to the end of layout)
+        hub_layout->addStretch(1);
     }
 
 private:
     QTabWidget* tab_widget;
+
+    struct ButtonConfig {
+        QString name;
+        std::function<QWidget* (const QString&, QWidget*)> factory;
+    };
+
+    std::vector<ButtonConfig> buttons_conf;
+
+    template<typename T>
+    ButtonConfig make_button_conf(QString&& lab_name, QWidget* lab_parent)
+    {
+        return {std::move(lab_name), [](const QString& name, QWidget* parent){ return new T(name, parent); }};
+    }
 };
