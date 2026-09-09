@@ -177,7 +177,7 @@ private:
         if (ok_int)
         {
             call.set_profession(prof, employee_count);
-            employees_label->setText(employees_label->property("call_templ").toString().arg(call.get_level_all()));
+            employees_label->setText(employees_label->property("call_templ").toString().arg(call.get_profession_all()));
             update_employees();
         }
 

@@ -1,19 +1,68 @@
 #include "Call.h"
+#include <new>
+#include <algorithm>
+#include <stdexcept>
+#include <utility>
+
+// Global constexpr, internal linkage
+constexpr int DEP_MAX = 6;
+
+Call::Call()
+{
+    depart = new int[DEP_MAX];
+    std::fill(depart, depart + DEP_MAX, 0);
+}
+
+Call::Call(Call& call)
+{
+    depart = new int[DEP_MAX];
+    std::copy(call.depart,  call.depart + DEP_MAX, depart);
+}
+
+Call::Call(Call&& call) noexcept
+{
+    depart = std::exchange(call.depart, nullptr);
+}
+
+Call::~Call()
+{
+    delete[] depart;
+}
+
+Call& Call::operator=(Call& call)
+{
+    if (&call == this) return *this;
+
+    int* new_depart = new int[DEP_MAX];
+    std::copy(call.depart,  call.depart + DEP_MAX, new_depart);
+    delete [] depart;
+    depart = new_depart;
+
+    return *this;
+}
+
+Call& Call::operator=(Call&& call) noexcept
+{
+    if (&call == this) return *this;
+
+    delete[] depart;
+    depart = std::exchange(call.depart, nullptr);
+
+    return *this;
+}
 
 int Call::get_level(Level level)
 {
-    switch (level)
+    if (level > 2 || level < 0)
     {
-        case EASY:   return easy;
-        case MEDIUM: return medium;
-        case HARD:   return hard;
-        default:     return 0;
+        throw std::out_of_range("First level EASY = 0, last level HARD = 2.");
     }
+    return depart[level];
 }
 
 int Call::get_level_all()
 {
-    return policeman + special_forces + detective;
+    return depart[0] + depart[1] + depart[2];
 }
 
 int Call::get_level_percent(Level level)
@@ -25,17 +74,16 @@ int Call::get_level_percent(Level level)
 
 int Call::get_profession(Profession profession)
 {
-    switch (profession)
+    if (profession > 5 || profession < 3)
     {
-        case POLICEMAN:      return policeman;
-        case SPECIAL_FORCES: return special_forces;
-        case DETECTIVE:      return detective;
-        default:             return 0;
+        throw std::out_of_range("First level POLICEMAN = 3, last level DETECTIVE = 5.");
     }
+    return depart[profession];
 }
+
 int Call::get_profession_all()
 {
-    return policeman + special_forces + detective;
+    return depart[3] + depart[4] + depart[5];
 }
 
 int Call::get_profession_percent(Profession profession)
@@ -47,23 +95,18 @@ int Call::get_profession_percent(Profession profession)
 
 void Call::set_level(Level level, int value)
 {
-    switch (level)
+    if (level > 2 || level < 0)
     {
-        case EASY:   easy = value;   break;
-        case MEDIUM: medium = value; break;
-        case HARD:   hard = value;   break;
-        default:                     break;
+        throw std::out_of_range("First level EASY = 0, last level HARD = 2.");
     }
+    depart[level] = value;
 }
 
 void Call::set_profession(Profession profession, int value)
 {
-    switch (profession)
+    if (profession > 5 || profession < 3)
     {
-        case POLICEMAN:      policeman = value;      break;
-        case SPECIAL_FORCES: special_forces = value; break;
-        case DETECTIVE:      detective = value;      break;
-        default:                                     break;
+        throw std::out_of_range("First level POLICEMAN = 3, last level DETECTIVE = 5.");
     }
+    depart[profession] = value;
 }
-
