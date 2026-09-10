@@ -25,7 +25,7 @@
 #define LAB1_EXIT_MAX_SIZE 100, 100
 #define LAB1_MAX_EMPLOYEES 1000
 
-class Lab1Widget : public QWidget, public ILabWindow, public Threaded<void>
+class Lab1Widget : public QWidget, public ILabWindow
 {
     Q_OBJECT
 
@@ -33,7 +33,7 @@ signals:
     void close_requested();
 
 public:
-    Lab1Widget(QString name = "Lab", QWidget* parent = nullptr) : QWidget(parent), Threaded<void>(parent), name_(name)
+    Lab1Widget(QString name = "Lab", QWidget* parent = nullptr) : QWidget(parent), name_(name)
     {
         employees_label = new QLabel("Employees: ", this);
         police_label          = new QLabel("Policemans: ", this);
@@ -68,7 +68,7 @@ public:
         vlayout->addSpacing(LAB1_VSPACING);
 
         vlayout->addWidget(police_edit);
-        auto* police_layout = new QHBoxLayout();
+        auto* police_layout = new QHBoxLayout(); // Without parent this. Already has layout
         vlayout->addLayout(police_layout);
         police_layout->addWidget(chbx_police);
         police_layout->addWidget(police_label);

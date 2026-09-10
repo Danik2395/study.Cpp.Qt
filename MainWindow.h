@@ -14,6 +14,7 @@
 #include <new>
 #include "labs/LabTestWidget.h"
 #include "labs/Lab1Widget.h"
+#include "labs/Lab2Widget.h"
 
 #define PINNED_TAB_INDEX 0
 #define MAX_BUTTON_SIZE 100, 100
@@ -25,6 +26,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget* parent = nullptr) : QMainWindow(parent)
     {
+        // Create tab widget with this as parent widget
         tab_widget = new QTabWidget(this);
         tab_widget->setTabsClosable(true);
         auto* tab_bar = tab_widget->tabBar();
@@ -34,9 +36,9 @@ public:
 
         // If closed remove tab and send it to safe delete qeueu
         connect(tab_widget, &QTabWidget::tabCloseRequested, this, [this](int index) {
-            QWidget* widget = tab_widget->widget(index);
+            QWidget* widget_in_tabWidget = tab_widget->widget(index);
             tab_widget->removeTab(index);
-            widget->deleteLater();
+            widget_in_tabWidget->deleteLater();
         });
 
         // Create hub and assign layout to it
@@ -52,6 +54,7 @@ public:
         buttons_conf = {
             make_button_conf<LabTestWidget>("Test", parent),
             make_button_conf<Lab1Widget>   ("Lab 1", parent),
+            make_button_conf<Lab2Widget>   ("Lab 2", parent),
         };
 
         for (const auto& btn_conf : buttons_conf)

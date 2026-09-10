@@ -16,8 +16,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_AUTOMOC ON)
-# set(CMAKE_AUTOUIC ON)
-# set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Concurrent)
 
@@ -26,6 +26,9 @@ set(SOURCES
     MainWindow.h
     labs/LabTestWidget.h
     labs/Lab1Widget.h
+    labs/Lab2Widget.h
+    ui/Lab2Widget.ui
+    ui/res.qrc
     labs/classes/Call.h
     labs/classes/Call.cpp
 )
