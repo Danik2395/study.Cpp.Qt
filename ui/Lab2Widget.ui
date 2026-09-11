@@ -22,6 +22,9 @@
   <property name="windowTitle">
    <string>CoolWidget</string>
   </property>
+  <property name="windowIcon">
+   <iconset theme="QIcon::ThemeIcon::SecurityHigh"/>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QFrame" name="frame">

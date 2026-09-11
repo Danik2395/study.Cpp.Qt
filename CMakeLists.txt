@@ -27,7 +27,10 @@ set(SOURCES
     labs/LabTestWidget.h
     labs/Lab1Widget.h
     labs/Lab2Widget.h
+    labs/Lab3Widget.h
     ui/Lab2Widget.ui
+    ui/Lab3Widget_panel.ui
+    ui/Lab3Widget_show.ui
     ui/res.qrc
     labs/classes/Call.h
     labs/classes/Call.cpp

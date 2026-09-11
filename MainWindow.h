@@ -15,6 +15,7 @@
 #include "labs/LabTestWidget.h"
 #include "labs/Lab1Widget.h"
 #include "labs/Lab2Widget.h"
+#include "labs/Lab3Widget.h"
 
 #define PINNED_TAB_INDEX 0
 #define MAX_BUTTON_SIZE 100, 100
@@ -52,9 +53,10 @@ public:
         tab_bar->setTabButton(PINNED_TAB_INDEX, QTabBar::RightSide, nullptr);
 
         buttons_conf = {
-            make_button_conf<LabTestWidget>("Test", parent),
+            make_button_conf<LabTestWidget>("Test",  parent),
             make_button_conf<Lab1Widget>   ("Lab 1", parent),
             make_button_conf<Lab2Widget>   ("Lab 2", parent),
+            make_button_conf<Lab3Widget>   ("Lab 3", parent),
         };
 
         for (const auto& btn_conf : buttons_conf)
