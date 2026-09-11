@@ -23,8 +23,18 @@ public:
 
     typedef ssstl::Vector<Criminal> Cell;
 
+    enum Spec_Cells_Num
+    {
+        FRST = 11,
+        SEC,
+        THRD,
+        FRTH
+    };
+
 private:
     ssstl::Vector<Cell> prison;
+    ssstl::Vector<int> special_cells_crimnals_count;
+
     ssstl::random<int> exp_dist;
     ssstl::random<int> name_dist;
     ssstl::random<int> lvl_dist;
@@ -44,9 +54,22 @@ public:
     {
         std::string names[] = {"Alex", "Peter", "Andrew", "Jordan"};
 
-        for (auto& cell : prison)
+
+        for (int n = 0; n < prison.size(); ++n)
         {
-            Cell rand_cell(criminals_dist);
+            Cell& cell = prison[n];
+
+            Cell rand_cell;
+
+            if (n >= FRST || n <= FRTH)
+            {
+                rand_cell = Cell(special_cells_crimnals_count[n]);
+            }
+            else
+            {
+                rand_cell = Cell(criminals_dist);
+            }
+
             cell = std::move(rand_cell);
 
             for (auto& criminal : cell)
@@ -59,6 +82,11 @@ public:
                 };
             }
         }
+    }
+
+    void set_special_cell_cnt(Spec_Cells_Num num, int count)
+    {
+        special_cells_crimnals_count[num] = count;
     }
 
     void add_prisoner(int cell_num, std::string& name)
@@ -87,14 +115,13 @@ public:
 
     // couded will firder out all not crouded cells,
     // exp    will firder out all non experienced criminals
-    template<bool crouded, bool exp>
-    ssstl::Vector<Cell> get_filtered_prisoners()
+    ssstl::Vector<Cell> get_filtered_prisoners(bool crouded, bool exp)
     {
         ssstl::Vector<Cell> quiery_pr = prison;
 
         for (auto& cell : quiery_pr)
         {
-            if constexpr (crouded)
+            if (crouded)
             {
                 if (cell.size() <= CROUDED_SIZE)
                 {
@@ -105,7 +132,7 @@ public:
 
             for (auto& criminal : cell)
             {
-                if constexpr (exp)
+                if (exp)
                 {
                     if (criminal.experience          <= EXP_EXP ||
                         criminal.level_in_the_skyrim <= EXP_SKYRIM)
