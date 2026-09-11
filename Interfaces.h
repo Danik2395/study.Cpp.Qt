@@ -38,12 +38,12 @@ protected:
         typename Signal
             >
     requires ThreadFunction<Work, WorkRet>
-    void to_thread(Reciever reciever,
-                   Control control, Signal signal,
-                   Work    worker,  Ret    ret)
+    void to_thread(Control sender,
+                   Signal  signal, Reciever reciever,
+                   Work   worker,  Ret      slot)
     {
-        QObject::connect(watcher, &QFutureWatcher<WorkRet>::finished, reciever, ret);
-        QObject::connect(control, signal, reciever, [reciever, worker](){
+        QObject::connect(watcher, &QFutureWatcher<WorkRet>::finished, reciever, slot);
+        QObject::connect(sender, signal, reciever, [reciever, worker](){
                 auto future = QtConcurrent::run(worker);
                 reciever->watcher->setFuture(future);
                 });

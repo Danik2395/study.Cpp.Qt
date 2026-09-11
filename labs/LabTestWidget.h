@@ -23,9 +23,9 @@ public:
         layout->addWidget(btn);
         layout->addWidget(result_label_);
 
-        to_thread(this,
-                  btn,
+        to_thread(btn,
                   &QPushButton::clicked,
+                  this,
                   [this]()->int{ return work_test(); },
                   [this](){ ret_test(); });
     }
