@@ -15,25 +15,25 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QScrollArea" name="scrollArea">
-       <property name="widgetResizable">
-        <bool>true</bool>
-       </property>
-       <widget class="QWidget" name="scrollAreaWidgetContents">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>378</width>
-          <height>278</height>
-         </rect>
-        </property>
-       </widget>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QLabel" name="label_criminals_cnt">
+     <property name="text">
+      <string>Criminals count:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_crouded_cells_nums">
+     <property name="text">
+      <string>Crouded cells numbers:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_exp_criminals_cell_nums">
+     <property name="text">
+      <string>Experienced criminals cells numbers:</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
