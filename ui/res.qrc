@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="assets/">
+    <file>image_blocks.png</file>
+    <file>image_criminality.png</file>
     <file>police_image.png</file>
   </qresource>
 </RCC>

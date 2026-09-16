@@ -28,12 +28,15 @@ set(SOURCES
     labs/Lab1Widget.h
     labs/Lab2Widget.h
     labs/Lab3Widget.h
+    labs/Lab4Widget.h
     ui/Lab2Widget.ui
     ui/Lab3Widget_panel.ui
     ui/Lab3Widget_show.ui
+    ui/Lab4Widget.ui
     ui/res.qrc
     labs/classes/Call.h
     labs/classes/Call.cpp
+    labs/classes/City.h
 )
 
 add_executable(${PROJECT_NAME} WIN32 ${SOURCES})

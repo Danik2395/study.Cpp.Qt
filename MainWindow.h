@@ -16,6 +16,7 @@
 #include "labs/Lab1Widget.h"
 #include "labs/Lab2Widget.h"
 #include "labs/Lab3Widget.h"
+#include "labs/Lab4Widget.h"
 
 #define PINNED_TAB_INDEX 0
 #define MAX_BUTTON_SIZE 100, 100
@@ -57,6 +58,7 @@ public:
             make_button_conf<Lab1Widget>   ("Lab 1", parent),
             make_button_conf<Lab2Widget>   ("Lab 2", parent),
             make_button_conf<Lab3Widget>   ("Lab 3", parent),
+            make_button_conf<Lab4Widget>   ("Lab 4", parent),
         };
 
         for (const auto& btn_conf : buttons_conf)
