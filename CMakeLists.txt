@@ -11,7 +11,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(ssstl)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -19,7 +19,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Concurrent)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Concurrent Sql)
 
 set(SOURCES
     main.cpp
@@ -29,14 +29,17 @@ set(SOURCES
     labs/Lab2Widget.h
     labs/Lab3Widget.h
     labs/Lab4Widget.h
+    labs/Lab5Widget.h
     ui/Lab2Widget.ui
     ui/Lab3Widget_panel.ui
     ui/Lab3Widget_show.ui
     ui/Lab4Widget.ui
+    ui/Lab5Widget.ui
     ui/res.qrc
     labs/classes/Call.h
     labs/classes/Call.cpp
     labs/classes/City.h
+    labs/classes/Report.h
 )
 
 add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
@@ -46,5 +49,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Gui
     Qt6::Widgets
     Qt6::Concurrent
+    Qt6::Sql
     ssstl
 )
