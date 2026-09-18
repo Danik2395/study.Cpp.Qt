@@ -21,8 +21,10 @@ public:
         try
         {
             std::string temp_conv_str;                                         // To not to corrupt converted_string
-            for (auto word : std::views::split(ascii_str, " "))                // Creates range of subranges
+            for (auto word : std::views::split(ascii_str, ' '))                // Creates range of subranges
             {
+                if (word.empty()) continue;
+
                 int ascii_int = std::stoi(std::string(std::from_range, word)); // C++23 to construct std::string from range
                 temp_conv_str += static_cast<char>(ascii_int);
             }
